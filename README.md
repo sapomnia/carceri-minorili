@@ -15,10 +15,11 @@ Dati e analisi sugli istituti penali per i minorenni (IPM): presenze, affollamen
 
 - Dipartimento per la giustizia minorile e di comunità (DGMC), *Minorenni e giovani adulti in carico ai Servizi minorili – Analisi statistica dei dati*, edizioni quindicinali dal 31/12/2025 al 30/09/2026 ([pagina delle statistiche](https://www.giustizia.it/giustizia/it/mg_1_14.page?selectedNode=0_6)). I dati 2026 sono provvisori.
 - DGMC, *Flussi di utenza degli Istituti penali per i minorenni – Anno 2025*.
-- Ministero della Giustizia, risposta all'interrogazione 4-06110 del 18/11/2025, e Carta dei servizi 2026 IPM e CPA di Cagliari (capienze).
-- Antigone, Osservatorio sulla giustizia minorile, schede istituto su [ragazzidentro.it](https://www.ragazzidentro.it/istituti/istituti-penali-per-minorenni/) (capienze).
+- Garante nazionale dei diritti delle persone private della libertà personale, *Osservatorio penitenziario minori e giovani adulti*, report al 31/03/2025 (`20250331_osservatorio_ipm.pdf`): capienze DGMC per istituto, presenti al 31 dicembre 2020-2024.
+- Ministero della Giustizia, risposta all'interrogazione 4-06110 del 18/11/2025 (capienze di L'Aquila, Lecce e Rovigo), e Carta dei servizi 2026 IPM e CPA di Cagliari.
+- Antigone, Osservatorio sulla giustizia minorile, schede istituto su [ragazzidentro.it](https://www.ragazzidentro.it/istituti/istituti-penali-per-minorenni/) (capienze rilevate nelle visite, per confronto).
 
-Il DGMC non pubblica la capienza degli IPM: quella del foglio sull'affollamento è ricostruita dalle fonti indicate riga per riga.
+Il DGMC non pubblica la capienza degli IPM nei report statistici. Il foglio sull'affollamento usa le capienze DGMC al 30/03/2025 riportate dal Garante; per gli istituti aperti dopo usa i posti indicati dal ministero. Le capienze di altre fonti sono riportate a confronto.
 
 ## Rifare l'estrazione
 

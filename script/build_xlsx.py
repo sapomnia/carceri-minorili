@@ -47,6 +47,17 @@ CAP = {
     'Quartucciu (CA)': (10, 'Carta dei servizi 2026 IPM e CPA di Cagliari', 'Ridotta di fatto a 8; ampliamento in corso'),
 }
 
+# Capienza DGMC al 30/03/2025 dal report del Garante nazionale (tabelle 1 e 2, maschi + femmine): tiene conto di lavori
+# e camere inagibili. È la capienza usata per l'affollamento; gli IPM aperti dopo restano sulle fonti di CAP.
+GARANTE = 'Garante nazionale, Osservatorio penitenziario minori, report al 31/03/2025 (dati DGMC al 30/03/2025)'
+CAP_DGMC = {'Acireale (CT)': 20, 'Airola (BN)': 24, 'Bari': 30, 'Bologna': 40, 'Caltanissetta': 12, 'Catania': 46,
+            'Catanzaro': 32, 'Firenze': 17, 'Milano': 48, 'Nisida (NA)': 76, 'Palermo': 28, 'Potenza': 16,
+            'Quartucciu (CA)': 10, 'Roma': 65, 'Torino': 46, 'Treviso': 12, 'Pontremoli (MS)': 16}
+NOTE_DGMC = {'Roma': '52 posti maschili e 13 femminili', 'Pontremoli (MS)': 'Solo femminile',
+             'Treviso': 'Attività sospesa dal 23/02/2026'}
+# Presenti al 31 dicembre: 2020-2024 dal report del Garante (tabella 10), 2025 dal DGMC
+PRESENTI_31_12 = {'2020': 278, '2021': 318, '2022': 381, '2023': 495, '2024': 543, '2025': 572}
+
 
 def comune_e_codice(df, col='IPM'):
     pos = df.columns.get_loc(col) + 1
@@ -116,14 +127,19 @@ righe = []
 for ipm in ORDINE:
     if ipm not in CAP:
         continue
-    cap, fonte, nota = CAP[ipm]
+    cap_alt, fonte_alt, nota_alt = CAP[ipm]
+    if ipm in CAP_DGMC:
+        cap, fonte, nota = CAP_DGMC[ipm], GARANTE, NOTE_DGMC.get(ipm, '')
+    else:
+        cap, fonte, nota = cap_alt, fonte_alt, nota_alt
     d = s26[s26.ipm == ipm]
     ult = d[d.data == ultima]
     pres = int(ult.presenti.iloc[0]) if len(ult) else None
     dic = sedi[(sedi.ipm == ipm) & (sedi.data == '2025-12-31')]
     mx = d.loc[d.presenti.idxmax()] if len(d) else None
+    altra = ipm in CAP_DGMC and fonte_alt != GARANTE
     righe.append({
-        'IPM': ipm, 'Capienza regolamentare (posti)': cap,
+        'IPM': ipm, 'Capienza usata (posti)': cap, 'Fonte capienza usata': fonte, 'Note capienza usata': nota,
         'Presenti 31/12/2025': int(dic.presenti.iloc[0]) if len(dic) else None,
         f'Presenti {it(ultima)}': pres,
         f'Affollamento {it(ultima)} (%)': round(pres / cap * 100, 1) if pres is not None else None,
@@ -131,7 +147,9 @@ for ipm in ORDINE:
         'Data del massimo': mx.data if mx is not None else None,
         'Affollamento al massimo 2026 (%)': round(mx.presenti / cap * 100, 1) if mx is not None else None,
         f'Presenza media giornaliera 01/01-{it(ultima)[:5]}/2026': float(ult.presenza_media.iloc[0]) if len(ult) else None,
-        'Fonte capienza': fonte, 'Note capienza': nota,
+        'Capienza da altra fonte (posti)': cap_alt if altra else None,
+        'Altra fonte meno DGMC (posti)': cap_alt - cap if altra else None,
+        'Altra fonte': fonte_alt if altra else '', 'Note altra fonte': nota_alt if altra else '',
     })
 aff = pd.DataFrame(righe)
 sheets['Affollamento per istituto'] = comune_e_codice(aff)
@@ -143,8 +161,11 @@ serie = pd.DataFrame({
     'Anno': si.voce.astype(str), 'Ingressi negli IPM': si.tot, 'Ingressi di italiani': si.ita,
     'Ingressi di stranieri': si.str, 'Ingressi di femmine': si.tot_f,
     'Presenza media giornaliera': sp.tot, 'Presenza media giornaliera italiani': sp.ita,
-    'Presenza media giornaliera stranieri': sp.str, 'Note': '',
+    'Presenza media giornaliera stranieri': sp.str,
+    'Presenti al 31/12': si.voce.astype(str).map(PRESENTI_31_12), 'Note': '',
 })
+serie.loc[serie.Anno.isin(['2020', '2021', '2022', '2023', '2024']), 'Note'] = \
+    'Presenti al 31/12 dal report del Garante nazionale al 31/03/2025'
 tot_ult = sedi[(sedi.ipm == 'Totale') & (sedi.data == ultima)].iloc[0]
 serie.loc[len(serie)] = {'Anno': '2026', 'Ingressi negli IPM': int(tot_ult.ingressi_stabili),
                          'Presenza media giornaliera': float(tot_ult.presenza_media),
@@ -253,6 +274,6 @@ for name, df in sheets.items():
 wb.save(DEST)
 for k, v in sheets.items():
     print(k, v.shape)
-print(aff[['IPM', 'Capienza regolamentare (posti)', f'Presenti {it(ultima)}', f'Affollamento {it(ultima)} (%)',
+print(aff[['IPM', 'Capienza usata (posti)', f'Presenti {it(ultima)}', f'Affollamento {it(ultima)} (%)',
            'Massimo presenti 2026', 'Data del massimo', 'Affollamento al massimo 2026 (%)']].to_string())
 print(naz_df.to_string())
