@@ -6,10 +6,9 @@ Dati e analisi sugli istituti penali per i minorenni (IPM): presenze, affollamen
 
 | File | Contenuto |
 |---|---|
-| `analisi-carceri-minorili.md` | Analisi testuale con fonti e cautele |
-| `carceri_minorili_ipm_2025_2026.xlsx` | Dati in 10 fogli: totale nazionale quindicinale, presenze per istituto, affollamento, serie storica 2016-2026, posizione giuridica, ingressi, delitti, uscite, provenienza |
 | `fonti/` | PDF originali delle fonti ufficiali |
-| `script/` | Script Python di estrazione e costruzione del file Excel |
+| `screenshot/` | Screenshot di alcune pagine di documenti presenti nelle fonti |
+| `script/` | Script Python di estrazione e costruzione di un file Excel con i dati. Per quelli sull'affollamento fare riferimento a 'Tasso di occupazione carceri minorili.csv', ricostruito manualmente|
 
 ## Fonti
 
@@ -19,7 +18,7 @@ Dati e analisi sugli istituti penali per i minorenni (IPM): presenze, affollamen
 - Ministero della Giustizia, risposta all'interrogazione 4-06110 del 18/11/2025 (capienze di L'Aquila, Lecce e Rovigo), e Carta dei servizi 2026 IPM e CPA di Cagliari.
 - Antigone, Osservatorio sulla giustizia minorile, schede istituto su [ragazzidentro.it](https://www.ragazzidentro.it/istituti/istituti-penali-per-minorenni/) (capienze rilevate nelle visite, per confronto).
 
-Il DGMC non pubblica la capienza degli IPM nei report statistici. Il foglio sull'affollamento usa le capienze DGMC al 30/03/2025 riportate dal Garante; per gli istituti aperti dopo usa i posti indicati dal ministero. Le capienze di altre fonti sono riportate a confronto.
+Il DGMC non pubblica la capienza degli IPM nei report statistici. Il foglio sull'affollamento contenuto nel file Excel usa le capienze DGMC al 30/03/2025 riportate dal Garante; per gli istituti aperti dopo usa i posti indicati dal ministero. Le capienze di altre fonti sono riportate a confronto. Il file .csv sull'affollamento riporta invece le capienze al 31/120/2025 riportate dal Garante integrate con notizie di stampa relative all'apertura del carcere di Rovigo, alla chiusura di quello di Treviso e al completamento dei lavori in quelli di L'Aquila e Lecce avvenuti nel corso del 2026.
 
 ## Rifare l'estrazione
 
